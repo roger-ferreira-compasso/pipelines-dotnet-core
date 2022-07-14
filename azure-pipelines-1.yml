@@ -11,8 +11,8 @@ variables:
   buildPlatform: "x86"
   buildConfiguration: "Release"
 
-  pool:
-    vmImage: 'windows-latest'
+pool:
+  vmImage: 'windows-latest'
 
 #parameters:
 #  - name: azureSubscription

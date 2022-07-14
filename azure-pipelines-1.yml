@@ -21,23 +21,25 @@ stages:
     - script: 'dotnet build'
       displayName: 'dotnet build $(buildConfiguration)'
 
-    - task: UseDotNet@2
-      displayName: 'Install .NET Core SDK'
+    - task: DotNetCoreCLI@2
       inputs:
-        version: 5.0.x
-        performMultiLevelLookup: true
-        includePreviewVersions: true
+        command: 'build'
+        projects: |
+          pipelines-dotnet-core.csproj 
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'push'
+        searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;!$(Build.ArtifactStagingDirectory)/*.Tests.nupkg'
+        feedPublish: 'FabrikamFeed'
 
     - task: DotNetCoreCLI@2
-      displayName: Build
+      displayName: 'dotnet publish'
       inputs:
-        command: build
+        command: 'publish'
+        publishWebProjects: false
         projects: '**/*.csproj'
-        arguments: '--configuration $(buildConfiguration)'
-
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: publish
-        publishWebProjects: True
-        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
-        zipAfterPublish: True
+        arguments: '-o $(Build.ArtifactStagingDirectory)/Output'
+        zipAfterPublish: true
+        modifyOutputPath: true
+        
+          

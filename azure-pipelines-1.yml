@@ -65,7 +65,7 @@ stages:
   - stage: publish_web_app
     displayName: "Publish to web app"
     dependsOn: build_stage
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], '${{ parameters.sourceBranchTrigger }}'), eq(variables['force_deploy'], 'true')))
+    #condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'), or(eq(variables['Build.SourceBranch'], '${{ parameters.sourceBranchTrigger }}'), eq(variables['force_deploy'], 'true')))
     jobs:
       - job: publish_web_app
         steps:

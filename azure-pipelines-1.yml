@@ -11,8 +11,7 @@ variables:
   buildPlatform: "x86"
   buildConfiguration: "Release"
 
-pool:
-  name: Default
+pool: Azure Pipelines
 
 #parameters:
 #  - name: azureSubscription

@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- development
 
 pool: 
   vmImage: ubuntu-latest
@@ -20,7 +20,24 @@ stages:
       displayName: 'dotnet build $(buildConfiguration)'
     - script: 'dotnet build'
       displayName: 'dotnet build $(buildConfiguration)'
+
+    - task: UseDotNet@2
+      displayName: 'Install .NET Core SDK'
+      inputs:
+        version: 5.0.x
+        performMultiLevelLookup: true
+        includePreviewVersions: true
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+
     - task: DotNetCoreCLI@2
       inputs:
-        command: 'publish'
-        publishWebProjects: true
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: True

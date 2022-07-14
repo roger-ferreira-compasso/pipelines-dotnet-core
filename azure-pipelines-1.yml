@@ -6,8 +6,13 @@
 trigger:
 - development
 
-pool: 
-  vmImage: ubuntu-latest
+variables:
+  solution: "**/*.sln"
+  buildPlatform: "x86"
+  buildConfiguration: "Release"
+
+pool:
+  name: Default
 
 #parameters:
 #  - name: azureSubscription

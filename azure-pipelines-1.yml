@@ -24,8 +24,10 @@ stages:
       inputs:
         command: 'build'
         projects: '*.csproj'
+        workingDirectory: '/home/vsts/work/r1/a/'
     - task: DotNetCoreCLI@2
       inputs:
         command: 'publish'
         publishWebProjects: true
+            
     - task: PublishBuildArtifacts@1

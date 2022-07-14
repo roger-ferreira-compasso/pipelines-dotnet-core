@@ -11,7 +11,8 @@ variables:
   buildPlatform: "x86"
   buildConfiguration: "Release"
 
-pool: Azure Pipelines
+  pool:
+    vmImage: 'windows-latest'
 
 #parameters:
 #  - name: azureSubscription

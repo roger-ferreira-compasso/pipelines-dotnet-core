@@ -16,18 +16,21 @@ stages:
   - job: Build
     displayName: Build
     steps:
-    - script: 'pwd && ls'
-      displayName: 'dotnet build $(buildConfiguration)'
-    - script: 'dotnet build'
-      displayName: 'dotnet build $(buildConfiguration)'
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+        
     - task: DotNetCoreCLI@2
       inputs:
-        command: 'build'
-        projects: '*.csproj'
-
-    - task: DotNetCoreCLI@2
+        command: publish
+        publishWebProjects: True
+        arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+        zipAfterPublish: True
+        
+    - task: PublishPipelineArtifact@1
       inputs:
-        command: 'publish'
-        publishWebProjects: true
-        workingDirectory: '/home/vsts/work/r1/a/'
-    - task: PublishBuildArtifacts@1
+        targetPath: '$(Build.ArtifactStagingDirectory)' 
+        artifactName: 'WebDotNetCore'
